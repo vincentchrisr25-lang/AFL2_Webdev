@@ -22,19 +22,19 @@
                 <a
                     class="gallery-card"
                     href="{{ route($detailRoute ?? 'gallery.detail', $client) }}"
-                    aria-label="View full album for {{ $client->display_title }}"
+                    aria-label="View full album for {{ $client->client_name }}"
                 >
                     <span class="gallery-card__cover">
                         <img
                             src="{{ $client->cover_url ?: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85' }}"
-                            alt="{{ $client->display_title }} — Tepuk Tangan visual archive"
+                            alt="{{ $client->client_name }} — Tepuk Tangan visual archive"
                             loading="lazy"
                         >
                         <span class="gallery-card__shade" aria-hidden="true"></span>
                     </span>
 
                     <span class="gallery-card__meta">
-                        <span class="gallery-card__title">{{ $client->display_title }} <span class="gallery-card__arrow" aria-hidden="true">→</span></span>
+                        <span class="gallery-card__title">{{ $client->client_name }} <span class="gallery-card__arrow" aria-hidden="true">→</span></span>
                     </span>
                     <span class="gallery-card__rule" aria-hidden="true"></span>
                 </a>

@@ -12,15 +12,6 @@
                     <span>Indonesia</span>
                 </address>
             </section>
-
-            <figure class="inquiry-portrait">
-                <img
-                    src="{{ asset('assets/images/portrait.jpg') }}"
-                    alt="Fotografer sedang mengambil gambar"
-                    class="inquiry-portrait-img"
-                />
-                <figcaption>Behind every frame, there is a story.</figcaption>
-            </figure>
         </aside>
 
         <section class="inquiry-form-section" aria-labelledby="inquiry-title">

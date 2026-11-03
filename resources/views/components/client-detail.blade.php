@@ -1,6 +1,6 @@
 <div class="client-detail">
     <header class="client-detail__header">
-        <h1 class="client-detail__title">{{ $client->display_title }}</h1>
+        <h1 class="client-detail__title">{{ $client->client_name }}</h1>
         @if ($client->month_date)
             <p class="client-detail__meta">
                 <span>{{ $client->month_date }}</span>
@@ -10,7 +10,7 @@
 
     <div class="client-detail__media">
         @foreach ($client->videos as $asset)
-            <video class="client-detail__video" controls playsinline preload="metadata" aria-label="{{ $client->display_title }} wedding video">
+            <video class="client-detail__video" controls playsinline preload="metadata" aria-label="{{ $client->client_name }} wedding video">
                 <source src="{{ $asset->url }}">
             </video>
         @endforeach
@@ -21,7 +21,7 @@
                     <img
                         class="client-detail__photo{{ $loop->first ? ' client-detail__photo--feature' : '' }}"
                         src="{{ $asset->url }}"
-                        alt="{{ $asset->alt ?: $client->display_title }}"
+                        alt="{{ $asset->alt ?: $client->client_name }}"
                         loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                     >
                 @endforeach
