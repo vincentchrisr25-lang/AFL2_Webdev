@@ -9,24 +9,18 @@ use RuntimeException;
 
 class ClientAssetSeeder extends Seeder
 {
-    private const EXCLUDED_ASSETS = [
-        'gallery/Vera & Nuel/Video/Wdding Cinema - Vera & Nuel.mp4',
-        'Livesteaming/BTS OLYMPRUN.mp4',
-    ];
-
     private const ASSET_SOURCES = [
-        1 => ['gallery/Vera & Nuel'],
-        2 => ['gallery/Stephen&Poppy'],
-        3 => ['gallery/Erica&Alvin'],
-        4 => ['Photoboot/arul silvia'],
-        5 => ['Photoboot/calvin meili'],
-        6 => ['Photoboot/hendy & sonia'],
-        7 => ['Photoboot/jeremmy & anggraini'],
-        8 => ['Photoboot/Luna'],
-        9 => ['Livesteaming/bts elementary school.mp4'],
-        10 => ['Livesteaming/bts livecam bg gold run.mp4'],
-        11 => ['Livesteaming/BTS OLYMPRUN.mp4'],
-        12 => ['Livesteaming/BTS SMP Cita Hati.mp4'],
+        'Vera & Nuel' => ['gallery/Vera & Nuel'],
+        'Stephen & Poppy' => ['gallery/Stephen&Poppy'],
+        'Erica & Alvin' => ['gallery/Erica&Alvin'],
+        'Arul Silvia' => ['Photoboot/arul silvia'],
+        'Calvin Meili' => ['Photoboot/calvin meili'],
+        'Hendy & Sonia' => ['Photoboot/hendy & sonia'],
+        'Jeremmy & Anggraini' => ['Photoboot/jeremmy & anggraini'],
+        'Luna' => ['Photoboot/Luna'],
+        'BTS Elementary School' => ['Livesteaming/bts elementary school.mp4'],
+        'BTS Livecam BG Gold Run' => ['Livesteaming/bts livecam bg gold run.mp4'],
+        'BTS SMP Cita Hati' => ['Livesteaming/BTS SMP Cita Hati.mp4'],
     ];
 
     public function run(): void
@@ -35,16 +29,18 @@ class ClientAssetSeeder extends Seeder
         $videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v', 'mpeg', 'mpg', '3gp'];
 
         foreach (ClientSeeder::clientData() as $data) {
-            $client = Client::query()->find($data['id']);
+            $client = Client::query()->where('client_name', $data['client_name'])->first();
 
             if (! $client) {
-                throw new RuntimeException("Client record not found for ID {$data['id']} ({$data['client_name']}).");
+                throw new RuntimeException("Client record not found for {$data['client_name']}.");
             }
 
-            $assetSources = self::ASSET_SOURCES[$data['id']] ?? null;
+            $assetSources = self::ASSET_SOURCES[$data['client_name']] ?? null;
 
             if ($assetSources === null) {
-                throw new RuntimeException("Client media sources are not configured for {$data['client_name']}.");
+                $this->command?->warn("No media sources configured for {$data['client_name']}; skipping assets.");
+
+                continue;
             }
 
             $files = collect($assetSources)
@@ -57,9 +53,10 @@ class ClientAssetSeeder extends Seeder
                         return [$source];
                     }
 
-                    throw new RuntimeException("Client media source not found: {$source}");
+                    $this->command?->warn("Skipping missing media source: {$source}");
+
+                    return [];
                 })
-                ->reject(fn (string $path) => in_array($path, self::EXCLUDED_ASSETS, true))
                 ->filter(function (string $path) use ($photoExtensions, $videoExtensions) {
                     return in_array(
                         strtolower(pathinfo($path, PATHINFO_EXTENSION)),
@@ -72,7 +69,9 @@ class ClientAssetSeeder extends Seeder
                 ->values();
 
             if ($files->isEmpty()) {
-                throw new RuntimeException("No supported photo or video files found for {$client->client_name}.");
+                $this->command?->warn("No supported photo or video files found for {$client->client_name}; skipping assets.");
+
+                continue;
             }
 
             $photos = $files->filter(function (string $path) use ($photoExtensions) {
