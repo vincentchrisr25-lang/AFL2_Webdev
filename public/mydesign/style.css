@@ -1267,6 +1267,12 @@ body:has(.home-page) {
     padding-inline: 16px;
 }
 
+.home-darkroom,
+.home-collage {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+}
+
 .home-footer {
     grid-template-columns: 1fr 1fr 1fr;
 }
