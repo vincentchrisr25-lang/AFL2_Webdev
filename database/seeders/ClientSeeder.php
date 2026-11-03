@@ -11,6 +11,7 @@ class ClientSeeder extends Seeder
     {
         return [
             [
+                'id' => 2,
                 'client_name' => 'Stephen & Poppy',
                 'card_title' => 'Stephen & Poppy',
                 'cover_image' => 'gallery/Stephen&Poppy/_NRO0465.jpg',
@@ -18,6 +19,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'gallery',
             ],
             [
+                'id' => 3,
                 'client_name' => 'Erica & Alvin',
                 'card_title' => 'Erica & Alvin',
                 'cover_image' => 'gallery/Erica&Alvin/DIA00699.JPG',
@@ -25,6 +27,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'gallery',
             ],
             [
+                'id' => 1,
                 'client_name' => 'Vera & Nuel',
                 'card_title' => 'Vera & Nuel',
                 'cover_image' => 'gallery/Vera & Nuel/Photo/DIA00001.jpg',
@@ -32,6 +35,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'gallery',
             ],
             [
+                'id' => 4,
                 'client_name' => 'Arul Silvia',
                 'card_title' => 'Arul & Silvia',
                 'cover_image' => 'Photoboot/arul silvia/20260718_192008_949.jpg',
@@ -39,6 +43,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'photobooth',
             ],
             [
+                'id' => 5,
                 'client_name' => 'Calvin Meili',
                 'card_title' => 'Calvin & Meili',
                 'cover_image' => 'Photoboot/calvin meili/20260509_181606_319.jpg',
@@ -46,6 +51,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'photobooth',
             ],
             [
+                'id' => 6,
                 'client_name' => 'Hendy & Sonia',
                 'card_title' => 'Hendy & Sonia',
                 'cover_image' => 'Photoboot/hendy & sonia/20260117_193151_788.jpg',
@@ -53,6 +59,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'photobooth',
             ],
             [
+                'id' => 7,
                 'client_name' => 'Jeremmy & Anggraini',
                 'card_title' => 'Jeremmy & Anggraini',
                 'cover_image' => 'Photoboot/jeremmy & anggraini/20260502_193919_577.jpg',
@@ -60,6 +67,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'photobooth',
             ],
             [
+                'id' => 8,
                 'client_name' => 'Luna',
                 'card_title' => 'Luna',
                 'cover_image' => 'Photoboot/Luna/20261009_174245_349.jpg',
@@ -67,6 +75,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'photobooth',
             ],
             [
+                'id' => 9,
                 'client_name' => 'BTS Elementary School',
                 'card_title' => 'BTS Elementary School',
                 'cover_image' => null,
@@ -74,6 +83,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'livestream',
             ],
             [
+                'id' => 10,
                 'client_name' => 'BTS Livecam BG Gold Run',
                 'card_title' => 'BTS Livecam BG Gold Run',
                 'cover_image' => null,
@@ -81,6 +91,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'livestream',
             ],
             [
+                'id' => 11,
                 'client_name' => 'BTS Olymprun',
                 'card_title' => 'BTS Olymprun',
                 'cover_image' => null,
@@ -88,6 +99,7 @@ class ClientSeeder extends Seeder
                 'client_type' => 'livestream',
             ],
             [
+                'id' => 12,
                 'client_name' => 'BTS SMP Cita Hati',
                 'card_title' => 'BTS SMP Cita Hati',
                 'cover_image' => null,
@@ -100,17 +112,16 @@ class ClientSeeder extends Seeder
     public function run(): void
     {
         foreach (self::clientData() as $data) {
-            Client::updateOrCreate(
-                [
-                    'client_name' => $data['client_name'],
-                    'client_type' => $data['client_type'],
-                ],
-                [
-                    'card_title' => $data['card_title'],
-                    'cover_image' => $data['cover_image'],
-                    'month_date' => $data['month_date'] ?? null,
-                ],
-            );
+            $client = Client::query()->find($data['id']) ?? new Client;
+            $client->id = $data['id'];
+            $client->fill([
+                'client_name' => $data['client_name'],
+                'card_title' => $data['card_title'],
+                'cover_image' => $data['cover_image'],
+                'month_date' => $data['month_date'] ?? null,
+                'client_type' => $data['client_type'],
+            ]);
+            $client->save();
         }
     }
 }

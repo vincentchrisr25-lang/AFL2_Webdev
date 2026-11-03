@@ -10,18 +10,18 @@ use RuntimeException;
 class ClientAssetSeeder extends Seeder
 {
     private const ASSET_SOURCES = [
-        'Stephen & Poppy' => ['gallery/Stephen&Poppy'],
-        'Erica & Alvin' => ['gallery/Erica&Alvin'],
-        'Vera & Nuel' => ['gallery/Vera & Nuel'],
-        'Arul Silvia' => ['Photoboot/arul silvia'],
-        'Calvin Meili' => ['Photoboot/calvin meili'],
-        'Hendy & Sonia' => ['Photoboot/hendy & sonia'],
-        'Jeremmy & Anggraini' => ['Photoboot/jeremmy & anggraini'],
-        'Luna' => ['Photoboot/Luna'],
-        'BTS Elementary School' => ['Livesteaming/bts elementary school.mp4'],
-        'BTS Livecam BG Gold Run' => ['Livesteaming/bts livecam bg gold run.mp4'],
-        'BTS Olymprun' => ['Livesteaming/BTS OLYMPRUN.mp4'],
-        'BTS SMP Cita Hati' => ['Livesteaming/BTS SMP Cita Hati.mp4'],
+        1 => ['gallery/Vera & Nuel'],
+        2 => ['gallery/Stephen&Poppy'],
+        3 => ['gallery/Erica&Alvin'],
+        4 => ['Photoboot/arul silvia'],
+        5 => ['Photoboot/calvin meili'],
+        6 => ['Photoboot/hendy & sonia'],
+        7 => ['Photoboot/jeremmy & anggraini'],
+        8 => ['Photoboot/Luna'],
+        9 => ['Livesteaming/bts elementary school.mp4'],
+        10 => ['Livesteaming/bts livecam bg gold run.mp4'],
+        11 => ['Livesteaming/BTS OLYMPRUN.mp4'],
+        12 => ['Livesteaming/BTS SMP Cita Hati.mp4'],
     ];
 
     public function run(): void
@@ -30,16 +30,13 @@ class ClientAssetSeeder extends Seeder
         $videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v', 'mpeg', 'mpg', '3gp'];
 
         foreach (ClientSeeder::clientData() as $data) {
-            $client = Client::query()
-                ->where('client_name', $data['client_name'])
-                ->where('client_type', $data['client_type'])
-                ->first();
+            $client = Client::query()->find($data['id']);
 
             if (! $client) {
-                throw new RuntimeException("Client record not found for {$data['client_name']} ({$data['client_type']}).");
+                throw new RuntimeException("Client record not found for ID {$data['id']} ({$data['client_name']}).");
             }
 
-            $assetSources = self::ASSET_SOURCES[$data['client_name']] ?? null;
+            $assetSources = self::ASSET_SOURCES[$data['id']] ?? null;
 
             if ($assetSources === null) {
                 throw new RuntimeException("Client media sources are not configured for {$data['client_name']}.");
