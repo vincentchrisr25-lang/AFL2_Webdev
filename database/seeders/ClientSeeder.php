@@ -7,34 +7,109 @@ use Illuminate\Database\Seeder;
 
 class ClientSeeder extends Seeder
 {
-    public function run(): void
+    public static function clientData(): array
     {
-        $clients = [
+        return [
             [
-                'client_name' => 'Stephen & Phoppy Wedding',
+                'client_name' => 'Stephen & Poppy',
+                'card_title' => 'Stephen & Poppy',
                 'cover_image' => 'gallery/Stephen&Poppy/_NRO0465.jpg',
                 'month_date' => '13/10/25',
+                'client_type' => 'gallery',
             ],
             [
                 'client_name' => 'Erica & Alvin',
+                'card_title' => 'Erica & Alvin',
                 'cover_image' => 'gallery/Erica&Alvin/DIA00699.JPG',
                 'month_date' => '06/06/22',
+                'client_type' => 'gallery',
             ],
             [
                 'client_name' => 'Vera & Nuel',
-                'cover_image' => 'gallery/photos/.jpg',
-                'month_date' => null,
+                'card_title' => 'Vera & Nuel',
+                'cover_image' => 'gallery/Vera & Nuel/Photo/DIA00001.jpg',
+                'month_date' => '16/06/23',
+                'client_type' => 'gallery',
+            ],
+            [
+                'client_name' => 'Arul Silvia',
+                'card_title' => 'Arul & Silvia',
+                'cover_image' => 'Photoboot/arul silvia/20260718_192008_949.jpg',
+                'month_date' => '12/01/23',
+                'client_type' => 'photobooth',
+            ],
+            [
+                'client_name' => 'Calvin Meili',
+                'card_title' => 'Calvin & Meili',
+                'cover_image' => 'Photoboot/calvin meili/20260509_181606_319.jpg',
+                'month_date' => '09/05/23',
+                'client_type' => 'photobooth',
+            ],
+            [
+                'client_name' => 'Hendy & Sonia',
+                'card_title' => 'Hendy & Sonia',
+                'cover_image' => 'Photoboot/hendy & sonia/20260117_193151_788.jpg',
+                'month_date' => '17/01/23',
+                'client_type' => 'photobooth',
+            ],
+            [
+                'client_name' => 'Jeremmy & Anggraini',
+                'card_title' => 'Jeremmy & Anggraini',
+                'cover_image' => 'Photoboot/jeremmy & anggraini/20260502_193919_577.jpg',
+                'month_date' => '02/05/23',
+                'client_type' => 'photobooth',
+            ],
+            [
+                'client_name' => 'Luna',
+                'card_title' => 'Luna',
+                'cover_image' => 'Photoboot/Luna/20261009_174245_349.jpg',
+                'month_date' => '09/10/23',
+                'client_type' => 'photobooth',
+            ],
+            [
+                'client_name' => 'BTS Elementary School',
+                'card_title' => 'BTS Elementary School',
+                'cover_image' => null,
+                'month_date' => '15/06/23',
+                'client_type' => 'livestream',
+            ],
+            [
+                'client_name' => 'BTS Livecam BG Gold Run',
+                'card_title' => 'BTS Livecam BG Gold Run',
+                'cover_image' => null,
+                'month_date' => '20/06/23',
+                'client_type' => 'livestream',
+            ],
+            [
+                'client_name' => 'BTS Olymprun',
+                'card_title' => 'BTS Olymprun',
+                'cover_image' => null,
+                'month_date' => '16/06/23',
+                'client_type' => 'livestream',
+            ],
+            [
+                'client_name' => 'BTS SMP Cita Hati',
+                'card_title' => 'BTS SMP Cita Hati',
+                'cover_image' => null,
+                'month_date' => '12/01/23',
+                'client_type' => 'livestream',
             ],
         ];
+    }
 
-        foreach ($clients as $data) {
+    public function run(): void
+    {
+        foreach (self::clientData() as $data) {
             Client::updateOrCreate(
-                ['client_name' => $data['client_name']],
                 [
+                    'client_name' => $data['client_name'],
+                    'client_type' => $data['client_type'],
+                ],
+                [
+                    'card_title' => $data['card_title'],
                     'cover_image' => $data['cover_image'],
-                    'month_date' => $data['month_date'],
-                    'client_type' => 'gallery',
-                ]
+                    'month_date' => $data['month_date'] ?? null,
+                ],
             );
         }
     }
