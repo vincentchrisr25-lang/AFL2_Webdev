@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#263317" />
-    <title>@yield('title', 'AFL2 Webdev')</title>
+    <title>@yield('title')</title>
     <link
         rel="preload"
         href="{{ asset('font/GlacialIndifference-Regular.otf') }}"

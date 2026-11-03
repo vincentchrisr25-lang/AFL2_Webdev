@@ -9,6 +9,11 @@ use RuntimeException;
 
 class ClientAssetSeeder extends Seeder
 {
+    private const EXCLUDED_ASSETS = [
+        'gallery/Vera & Nuel/Video/Wdding Cinema - Vera & Nuel.mp4',
+        'Livesteaming/BTS OLYMPRUN.mp4',
+    ];
+
     private const ASSET_SOURCES = [
         1 => ['gallery/Vera & Nuel'],
         2 => ['gallery/Stephen&Poppy'],
@@ -54,6 +59,7 @@ class ClientAssetSeeder extends Seeder
 
                     throw new RuntimeException("Client media source not found: {$source}");
                 })
+                ->reject(fn (string $path) => in_array($path, self::EXCLUDED_ASSETS, true))
                 ->filter(function (string $path) use ($photoExtensions, $videoExtensions) {
                     return in_array(
                         strtolower(pathinfo($path, PATHINFO_EXTENSION)),
