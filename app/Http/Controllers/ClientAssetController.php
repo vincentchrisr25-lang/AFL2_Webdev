@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientAsset;
 use App\Http\Requests\StoreClientAssetRequest;
 use App\Http\Requests\UpdateClientAssetRequest;
-use App\Models\ClientAsset;
 
 class ClientAssetController extends Controller
 {

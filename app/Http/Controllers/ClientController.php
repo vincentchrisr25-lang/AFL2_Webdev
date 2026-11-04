@@ -9,15 +9,7 @@ class ClientController extends Controller
 {
     public function galleryClients(): View
     {
-        $clients = Client::query()
-            ->where('client_type', 'gallery')
-            ->latest()
-            ->get();
-
-        return view('index', [
-            'active' => 'gallery',
-            'clients' => $clients,
-        ]);
+        return $this->listClients('gallery', 'gallery', 'gallery.detail', 'No client stories yet.');
     }
 
     public function photoboothClients(): View
@@ -52,22 +44,22 @@ class ClientController extends Controller
 
     public function galleryDetail(Client $client): View
     {
-        return $this->showClient('gallery', $client, 'gallerydetail', 'gallery');
+        return $this->showClient('gallery', $client, 'gallerydetail');
     }
 
     public function photoboothDetail(Client $client): View
     {
-        return $this->showClient('photobooth', $client, 'photoboothdetail', 'photobooth');
+        return $this->showClient('photobooth', $client, 'photoboothdetail');
     }
 
     public function lumenaraDetail(Client $client): View
     {
-        return $this->showClient('lumenara', $client, 'lumenaradetail', 'lumenara');
+        return $this->showClient('lumenara', $client, 'lumenaradetail');
     }
 
     public function livestreamDetail(Client $client): View
     {
-        return $this->showClient('livestream', $client, 'livestreamdetail', 'livestreaming');
+        return $this->showClient('livestream', $client, 'livestreamdetail');
     }
 
     private function listClients(string $type, string $view, string $detailRoute, string $emptyMessage): View
@@ -78,21 +70,19 @@ class ClientController extends Controller
             ->get();
 
         return view($view, [
-            'active' => $type,
             'clients' => $clients,
             'detailRoute' => $detailRoute,
             'emptyMessage' => $emptyMessage,
         ]);
     }
 
-    private function showClient(string $type, Client $client, string $view, string $active): View
+    private function showClient(string $type, Client $client, string $view): View
     {
         abort_unless($client->client_type === $type, 404);
 
         $client->load(['videos', 'photos']);
 
         return view($view, [
-            'active' => $active,
             'client' => $client,
         ]);
     }
