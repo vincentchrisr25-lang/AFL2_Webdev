@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InquiryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('root');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::view('/inquiry', 'inquiry')->name('inquiry');
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
 Route::get('/gallery', [ClientController::class, 'galleryClients'])->name('gallery');
 Route::get('/gallery/{client}', [ClientController::class, 'galleryDetail'])->name('gallery.detail');

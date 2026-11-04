@@ -22,7 +22,13 @@
                 it.
             </p>
 
-            <form class="inquiry-form" data-whatsapp-number="6285748430957">
+            <form
+                class="inquiry-form"
+                action="{{ route('inquiry.store') }}"
+                method="POST"
+                data-whatsapp-number="6285748430957"
+            >
+                @csrf
                 <div class="inquiry-name-fields">
                     <label class="inquiry-field">
                         <span>Your Name <span class="inquiry-required" aria-label="required">*</span></span>
@@ -70,8 +76,8 @@
                         @foreach (['wedding' => 'Wedding', 'pre-wedding' => 'Pre-wedding', 'portrait' => 'Portrait', 'commercial' => 'Commercial', 'editorial' => 'Editorial'] as $value => $label)
                             <label class="inquiry-pill"
                                 ><input
-                                    type="checkbox"
-                                    name="session_type[]"
+                                    type="radio"
+                                    name="session_types"
                                     value="{{ $value }}"
                                     @if ($loop->first) required @endif
                                 /><span>{{ $label }}</span></label>

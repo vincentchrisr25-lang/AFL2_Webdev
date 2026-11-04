@@ -185,7 +185,7 @@ document.querySelectorAll('.inquiry-form').forEach((form) => {
         });
     };
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const vision = getValue('vision');
@@ -202,7 +202,7 @@ document.querySelectorAll('.inquiry-form').forEach((form) => {
         addLine('Email', getValue('email'));
         addLine('WhatsApp', getValue('whatsapp'));
         addLine('Instagram', getValue('instagram'));
-        addLine('Jenis Session', getPillLabels('session_type[]').join(', '));
+        addLine('Jenis Session', getPillLabels('session_types').join(', '));
         addLine('Tanggal Shoot', formatDate(getValue('shoot_date')));
         addLine('Lokasi', getValue('location'));
         if (vision) {
@@ -210,6 +210,17 @@ document.querySelectorAll('.inquiry-form').forEach((form) => {
         }
 
         const url = `https://wa.me/${number}?text=${encodeURIComponent(lines.join('\n'))}`;
+
+        try {
+            await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { Accept: 'application/json' },
+            });
+        } catch (error) {
+            // Tetap lanjut ke WhatsApp bila penyimpanan gagal.
+        }
+
         const opened = window.open(url, '_blank');
 
         if (opened) {
