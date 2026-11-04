@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('root');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-
 Route::view('/inquiry', 'inquiry', ['active' => 'inquiry'])->name('inquiry');
 
 Route::get('/gallery', [ClientController::class, 'galleryClients'])->name('gallery');
